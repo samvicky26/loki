@@ -1,3 +1,4 @@
+# Copyright (c) 2018, The Kredits Project
 # Copyright (c) 2018, The Loki Project
 # Copyright (c) 2014-2018, The Monero Project
 #
@@ -43,7 +44,7 @@ endif()
 cmake_minimum_required(VERSION 2.8.7)
 message(STATUS "CMake version ${CMAKE_VERSION}")
 
-project(loki)
+project(kredits)
 
 function (die msg)
   if (NOT WIN32)

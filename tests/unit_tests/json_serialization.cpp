@@ -60,7 +60,7 @@ namespace
 
             int num_outputs_to_use = static_cast<int>(source.vout.size());
             if (num_outputs_to_use > 0 && is_miner_tx)
-              --num_outputs_to_use; // NOTE:(loki): Don't try to transfer the governance reward which is always the last one
+              --num_outputs_to_use; // NOTE:(kredits): Don't try to transfer the governance reward which is always the last one
 
             for (int output_index = 0; output_index < num_outputs_to_use; ++output_index)
             {

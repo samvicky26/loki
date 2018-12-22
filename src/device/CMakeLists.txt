@@ -1,3 +1,4 @@
+# Copyright (c) 2018, The Kredits Project
 # Copyright (c) 2018, The Loki Project
 # Copyright (c) 2014-2017, The Monero Project
 #
@@ -60,10 +61,10 @@ endif()
 set(device_private_headers)
 
 
-loki_private_headers(device
+kredits_private_headers(device
   ${device_private_headers})
 
-loki_add_library(device
+kredits_add_library(device
   ${device_sources}
   ${device_headers}
   ${device_private_headers})

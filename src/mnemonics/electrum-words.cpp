@@ -70,8 +70,8 @@
 #include "language_base.h"
 #include "singleton.h"
 
-#undef LOKI_DEFAULT_LOG_CATEGORY
-#define LOKI_DEFAULT_LOG_CATEGORY "mnemonic"
+#undef KREDITS_DEFAULT_LOG_CATEGORY
+#define KREDITS_DEFAULT_LOG_CATEGORY "mnemonic"
 
 namespace crypto
 {

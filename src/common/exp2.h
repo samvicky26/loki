@@ -1,5 +1,6 @@
 // Copyright (c) 2014-2018, The Monero Project
 // Copyright (c)      2018, The Loki Project
+// Copyright (c)      2018, Kredits Project
 // 
 // All rights reserved.
 // 
@@ -29,4 +30,4 @@
 
 #pragma once
 
-double loki_exp2(double);
+double kredits_exp2(double);

@@ -1,5 +1,6 @@
 // Copyright (c) 2014-2018, The Monero Project
 // Copyright (c)      2018, The Loki Project
+// Copyright (c)      2018, Kredits Project
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without modification, are
@@ -43,8 +44,8 @@
 #include "profile_tools.h"
 #include "ringct/rctOps.h"
 
-#undef LOKI_DEFAULT_LOG_CATEGORY
-#define LOKI_DEFAULT_LOG_CATEGORY "blockchain.db.lmdb"
+#undef KREDITS_DEFAULT_LOG_CATEGORY
+#define KREDITS_DEFAULT_LOG_CATEGORY "blockchain.db.lmdb"
 
 
 #if defined(__i386) || defined(__x86_64)

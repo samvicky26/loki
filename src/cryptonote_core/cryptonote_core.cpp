@@ -1,5 +1,6 @@
 // Copyright (c) 2014-2018, The Monero Project
 // Copyright (c)      2018, The Loki Project
+// Copyright (c)      2018, Kredits Project
 //
 // All rights reserved.
 //
@@ -61,8 +62,8 @@ using namespace epee;
 #include "wipeable_string.h"
 #include "common/i18n.h"
 
-#undef LOKI_DEFAULT_LOG_CATEGORY
-#define LOKI_DEFAULT_LOG_CATEGORY "cn"
+#undef KREDITS_DEFAULT_LOG_CATEGORY
+#define KREDITS_DEFAULT_LOG_CATEGORY "cn"
 
 DISABLE_VS_WARNINGS(4355)
 
@@ -155,7 +156,7 @@ namespace cryptonote
   };
   static const command_line::arg_descriptor<std::string> arg_check_updates = {
     "check-updates"
-  , "Check for new versions of loki: [disabled|notify|download|update]"
+  , "Check for new versions of kredits: [disabled|notify|download|update]"
   , "notify"
   };
   static const command_line::arg_descriptor<bool> arg_fluffy_blocks  = {
@@ -449,8 +450,8 @@ namespace cryptonote
       if (boost::filesystem::exists(old_files / "blockchain.bin"))
       {
         MWARNING("Found old-style blockchain.bin in " << old_files.string());
-        MWARNING("Loki now uses a new format. You can either remove blockchain.bin to start syncing");
-        MWARNING("the blockchain anew, or use loki-blockchain-export and loki-blockchain-import to");
+        MWARNING("Kredits now uses a new format. You can either remove blockchain.bin to start syncing");
+        MWARNING("the blockchain anew, or use kredits-blockchain-export and kredits-blockchain-import to");
         MWARNING("convert your existing blockchain.bin to the new format. See README.md for instructions.");
         return false;
       }
@@ -1288,7 +1289,7 @@ namespace cryptonote
     m_mempool.set_relayed(txs);
   }
   //-----------------------------------------------------------------------------------------------
-  void core::set_deregister_votes_relayed(const std::vector<loki::service_node_deregister::vote>& votes)
+  void core::set_deregister_votes_relayed(const std::vector<kredits::service_node_deregister::vote>& votes)
   {
     m_deregister_vote_pool.set_relayed(votes);
   }
@@ -1614,7 +1615,7 @@ namespace cryptonote
     {
       std::string main_message;
       if (m_offline)
-        main_message = "The daemon is running offline and will not attempt to sync to the Loki network.";
+        main_message = "The daemon is running offline and will not attempt to sync to the Kredits network.";
       else
         main_message = "The daemon will start synchronizing with the network. This may take a long time to complete.";
       MGINFO_YELLOW(ENDL << "**********************************************************************" << ENDL
@@ -1693,7 +1694,7 @@ namespace cryptonote
   //-----------------------------------------------------------------------------------------------
   bool core::check_updates()
   {
-    static const char software[] = "loki";
+    static const char software[] = "kredits";
 #ifdef BUILD_TAG
     static const char buildtag[] = BOOST_PP_STRINGIZE(BUILD_TAG);
     static const char subdir[] = "cli"; // because it can never be simple
@@ -1713,7 +1714,7 @@ namespace cryptonote
     if (!tools::check_updates(software, buildtag, version, hash))
       return false;
 
-    if (tools::vercmp(version.c_str(), LOKI_VERSION) <= 0)
+    if (tools::vercmp(version.c_str(), KREDITS_VERSION) <= 0)
     {
       m_update_available = false;
       return true;
@@ -1871,7 +1872,7 @@ namespace cryptonote
       MDEBUG("blocks in the last " << seconds[n] / 60 << " minutes: " << b << " (probability " << p << ")");
       if (p < threshold)
       {
-        MWARNING("There were " << b << " blocks in the last " << seconds[n] / 60 << " minutes, there might be large hash rate changes, or we might be partitioned, cut off from the Loki network or under attack. Or it could be just sheer bad luck.");
+        MWARNING("There were " << b << " blocks in the last " << seconds[n] / 60 << " minutes, there might be large hash rate changes, or we might be partitioned, cut off from the Kredits network or under attack. Or it could be just sheer bad luck.");
         break; // no need to look further
       }
     }
@@ -1917,16 +1918,16 @@ namespace cryptonote
     return result;
   }
   //-----------------------------------------------------------------------------------------------
-  bool core::add_deregister_vote(const loki::service_node_deregister::vote& vote, vote_verification_context &vvc)
+  bool core::add_deregister_vote(const kredits::service_node_deregister::vote& vote, vote_verification_context &vvc)
   {
     uint64_t latest_block_height = std::max(get_current_blockchain_height(), get_target_blockchain_height());
     uint64_t delta_height = latest_block_height - vote.block_height;
 
-    if (vote.block_height < latest_block_height && delta_height >= loki::service_node_deregister::VOTE_LIFETIME_BY_HEIGHT)
+    if (vote.block_height < latest_block_height && delta_height >= kredits::service_node_deregister::VOTE_LIFETIME_BY_HEIGHT)
     {
       LOG_PRINT_L1("Received vote for height: " << vote.block_height
                 << " and service node: "     << vote.service_node_index
-                << ", is older than: "       << loki::service_node_deregister::VOTE_LIFETIME_BY_HEIGHT
+                << ", is older than: "       << kredits::service_node_deregister::VOTE_LIFETIME_BY_HEIGHT
                 << " blocks and has been rejected.");
       vvc.m_invalid_block_height = true;
     }

@@ -1,5 +1,6 @@
 // Copyright (c) 2014-2018, The Monero Project
 // Copyright (c)      2018, The Loki Project
+// Copyright (c)      2018, Kredits Project
 //
 // All rights reserved.
 //
@@ -59,8 +60,8 @@
 #include "service_node_deregister.h"
 #include "service_node_list.h"
 
-#undef LOKI_DEFAULT_LOG_CATEGORY
-#define LOKI_DEFAULT_LOG_CATEGORY "blockchain"
+#undef KREDITS_DEFAULT_LOG_CATEGORY
+#define KREDITS_DEFAULT_LOG_CATEGORY "blockchain"
 
 #define FIND_BLOCKCHAIN_SUPPLEMENT_MAX_SIZE (100*1024*1024) // 100 MB
 
@@ -91,10 +92,10 @@ static const struct {
   time_t time;
 } mainnet_hard_forks[] = {
   // version 7 from the start of the blockchain, inhereted from Monero mainnet
-  { network_version_7,               1,      0, 1503046577 },
-  { network_version_8,               64324,  0, 1533006000 },
-  { network_version_9_service_nodes, 101250, 0, 1537444800 },
-  { network_version_10_bulletproofs, 161849, 0, 1544743800 }, // 2018-12-13 23:30UTC
+  { network_version_7,               1,  0, 1544584046 },
+  { network_version_8,               5,  0, 1544584148 },
+  /*{ network_version_9_service_nodes, 101250, 0, 1537444800 },
+  { network_version_10_bulletproofs, 161849, 0, 1544743800 }, // 2018-12-13 23:30UTC*/
 };
 
 static const struct {
@@ -104,10 +105,10 @@ static const struct {
   time_t time;
 } testnet_hard_forks[] = {
   // version 7 from the start of the blockchain, inhereted from Monero testnet
-  { network_version_7,               1,     0, 1533631121 },
-  { network_version_8,               2,     0, 1533631122 },
-  { network_version_9_service_nodes, 3,     0, 1533631123 },
-  { network_version_10_bulletproofs, 47096, 0, 1542681077 }, // 2018-11-20 13:30 AEDT
+  { network_version_7,               1,     0, 1544584046 },
+  { network_version_8,               2,     0, 1544584148 },
+  /*{ network_version_9_service_nodes, 3,     0, 1533631123 },
+  { network_version_10_bulletproofs, 47096, 0, 1542681077 }, // 2018-11-20 13:30 AEDT*/
 };
 
 static const struct {
@@ -117,14 +118,14 @@ static const struct {
   time_t time;
 } stagenet_hard_forks[] = {
   // version 7 from the start of the blockchain, inhereted from Monero testnet
-  { network_version_7,               1,     0, 1341378000 },
-  { network_version_8,               64324, 0, 1533006000 },
-  { network_version_9_service_nodes, 96210, 0, 1536840000 },
-  { network_version_10_bulletproofs, 96211, 0, 1536840120 },
+  { network_version_7,               1,     0, 1544584046 },
+  { network_version_8,               5, 0, 1544584148 },
+  /*{ network_version_9_service_nodes, 96210, 0, 1536840000 },
+  { network_version_10_bulletproofs, 96211, 0, 1536840120 },*/
 };
 
 //------------------------------------------------------------------
-Blockchain::Blockchain(tx_memory_pool& tx_pool, service_nodes::service_node_list& service_node_list, loki::deregister_vote_pool& deregister_vote_pool):
+Blockchain::Blockchain(tx_memory_pool& tx_pool, service_nodes::service_node_list& service_node_list, kredits::deregister_vote_pool& deregister_vote_pool):
   m_db(), m_tx_pool(tx_pool), m_hardfork(NULL), m_timestamps_and_difficulties_height(0), m_current_block_cumul_weight_limit(0), m_current_block_cumul_weight_median(0),
   m_enforce_dns_checkpoints(false), m_max_prepare_blocks_threads(4), m_db_sync_on_blocks(true), m_db_sync_threshold(1), m_db_sync_mode(db_async), m_db_default_sync(false), m_fast_sync(true), m_show_time_stats(false), m_sync_counter(0), m_bytes_to_sync(0), m_cancel(false),
   m_difficulty_for_next_block_top_hash(crypto::null_hash),
@@ -1138,7 +1139,7 @@ bool Blockchain::validate_miner_transaction(const block& b, size_t cumulative_bl
   std::vector<size_t> last_blocks_weights;
   get_last_n_blocks_weights(last_blocks_weights, CRYPTONOTE_REWARD_BLOCKS_WINDOW);
 
-  loki_block_reward_context block_reward_context = {};
+  kredits_block_reward_context block_reward_context = {};
   block_reward_context.fee                       = fee;
   block_reward_context.height                    = height;
   if (!calc_batched_governance_reward(height, block_reward_context.batched_governance))
@@ -1148,7 +1149,7 @@ bool Blockchain::validate_miner_transaction(const block& b, size_t cumulative_bl
   }
 
   block_reward_parts reward_parts;
-  if (!get_loki_block_reward(epee::misc_utils::median(last_blocks_weights), cumulative_block_weight, already_generated_coins, version, reward_parts, block_reward_context))
+  if (!get_kredits_block_reward(epee::misc_utils::median(last_blocks_weights), cumulative_block_weight, already_generated_coins, version, reward_parts, block_reward_context))
   {
     MERROR_VER("block weight " << cumulative_block_weight << " is bigger than allowed for this blockchain");
     return false;
@@ -1358,7 +1359,7 @@ bool Blockchain::create_block_template(block& b, const account_public_address& m
   //make blocks coin-base tx looks close to real coinbase tx to get truthful blob weight
   uint8_t hf_version = m_hardfork->get_current_version();
 
-  loki_miner_tx_context miner_tx_context(m_nettype,
+  kredits_miner_tx_context miner_tx_context(m_nettype,
                                          m_service_node_list.select_winner(b.prev_id),
                                          m_service_node_list.get_winner_addresses_and_portions(b.prev_id));
 
@@ -1820,7 +1821,7 @@ void Blockchain::get_output_key_mask_unlocked(const uint64_t& amount, const uint
 //------------------------------------------------------------------
 bool Blockchain::get_output_distribution(uint64_t amount, uint64_t from_height, uint64_t to_height, uint64_t &start_height, std::vector<uint64_t> &distribution, uint64_t &base) const
 {
-  // rct outputs don't exist before v4, NOTE(loki): we started from v7 so our start is always 0
+  // rct outputs don't exist before v4, NOTE(kredits): we started from v7 so our start is always 0
   start_height = 0;
   base = 0;
 
@@ -2400,22 +2401,9 @@ bool Blockchain::check_tx_outputs(const transaction& tx, tx_verification_context
     const bool borromean = rct::is_rct_borromean(tx.rct_signatures.type);
     if (borromean)
     {
-      uint64_t hf10_height = m_hardfork->get_earliest_ideal_height_for_version(network_version_10_bulletproofs);
-      uint64_t curr_height = this->get_current_blockchain_height();
-      if (curr_height == hf10_height)
-      {
-        // NOTE(loki): Allow the hardforking block to contain a borromean proof
-        // incase there were some transactions in the TX Pool that were
-        // generated pre-HF10 rules. Note, this isn't bulletproof. If there were
-        // more than 1 blocks worth of borromean proof TX's sitting in the pool
-        // this isn't going to work.
-      }
-      else
-      {
-        MERROR_VER("Borromean range proofs are not allowed after v10");
-        tvc.m_invalid_output = true;
-        return false;
-      }
+      MERROR_VER("Borromean range proofs are not allowed after v10");
+      tvc.m_invalid_output = true;
+      return false;
     }
   }
 
@@ -2555,7 +2543,7 @@ bool Blockchain::check_tx_inputs(transaction& tx, tx_verification_context &tvc, 
         }
         else
         {
-          MDEBUG("Found unmixable output! This should never happen in Loki!");
+          MDEBUG("Found unmixable output! This should never happen in Kredits!");
           uint64_t n_outputs = m_db->get_num_outputs(in_to_key.amount);
           MDEBUG("output size " << print_money(in_to_key.amount) << ": " << n_outputs << " available");
           // n_outputs includes the output we're considering
@@ -2938,7 +2926,7 @@ bool Blockchain::check_tx_inputs(transaction& tx, tx_verification_context &tvc, 
       return false;
     }
 
-    if (!loki::service_node_deregister::verify_deregister(nettype(), deregister, tvc.m_vote_ctx, *quorum_state))
+    if (!kredits::service_node_deregister::verify_deregister(nettype(), deregister, tvc.m_vote_ctx, *quorum_state))
     {
       tvc.m_verifivation_failed = true;
       MERROR_VER("tx " << get_transaction_hash(tx) << ": version 3 deregister_tx could not be completely verified reason: " << print_vote_verification_context(tvc.m_vote_ctx));
@@ -2960,11 +2948,11 @@ bool Blockchain::check_tx_inputs(transaction& tx, tx_verification_context &tvc, 
       }
 
       uint64_t delta_height = curr_height - deregister.block_height;
-      if (delta_height >= loki::service_node_deregister::DEREGISTER_LIFETIME_BY_HEIGHT)
+      if (delta_height >= kredits::service_node_deregister::DEREGISTER_LIFETIME_BY_HEIGHT)
       {
         LOG_PRINT_L1("Received deregister tx for height: " << deregister.block_height
                      << " and service node: "     << deregister.service_node_index
-                     << ", is older than: "       << loki::service_node_deregister::DEREGISTER_LIFETIME_BY_HEIGHT
+                     << ", is older than: "       << kredits::service_node_deregister::DEREGISTER_LIFETIME_BY_HEIGHT
                      << " blocks and has been rejected. The current height is: " << curr_height);
         tvc.m_vote_ctx.m_invalid_block_height = true;
         tvc.m_verifivation_failed             = true;
@@ -2973,7 +2961,7 @@ bool Blockchain::check_tx_inputs(transaction& tx, tx_verification_context &tvc, 
     }
 
     const uint64_t height            = deregister.block_height;
-    const size_t num_blocks_to_check = loki::service_node_deregister::DEREGISTER_LIFETIME_BY_HEIGHT;
+    const size_t num_blocks_to_check = kredits::service_node_deregister::DEREGISTER_LIFETIME_BY_HEIGHT;
 
     std::vector<std::pair<cryptonote::blobdata,block>> blocks;
     std::vector<cryptonote::blobdata> txs;

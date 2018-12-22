@@ -1,3 +1,4 @@
+# Copyright (c) 2018, The Kredits Project
 # Copyright (c) 2018, The Loki Project
 # Copyright (c) 2014-2018, The Monero Project
 #
@@ -47,9 +48,9 @@ set(wallet_private_headers
   ringdb.h
   node_rpc_proxy.h)
 
-loki_private_headers(wallet
+kredits_private_headers(wallet
   ${wallet_private_headers})
-loki_add_library(wallet
+kredits_add_library(wallet
   ${wallet_sources}
   ${wallet_private_headers})
 target_link_libraries(wallet
@@ -77,9 +78,9 @@ set(wallet_rpc_headers)
 set(wallet_rpc_private_headers
   wallet_rpc_server.h)
 
-loki_private_headers(wallet_rpc_server
+kredits_private_headers(wallet_rpc_server
   ${wallet_rpc_private_headers})
-loki_add_executable(wallet_rpc_server
+kredits_add_executable(wallet_rpc_server
   ${wallet_rpc_sources}
   ${wallet_rpc_headers}
   ${wallet_rpc_private_headers})
@@ -102,7 +103,7 @@ target_link_libraries(wallet_rpc_server
     ${EXTRA_LIBRARIES})
 set_property(TARGET wallet_rpc_server
   PROPERTY
-    OUTPUT_NAME "loki-wallet-rpc")
+    OUTPUT_NAME "kredits-wallet-rpc")
 install(TARGETS wallet_rpc_server DESTINATION bin)
 
 

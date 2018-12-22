@@ -57,8 +57,8 @@
 
 //#pragma comment(lib, "shlwapi.lib")
 
-#undef LOKI_DEFAULT_LOG_CATEGORY
-#define LOKI_DEFAULT_LOG_CATEGORY "net.http"
+#undef KREDITS_DEFAULT_LOG_CATEGORY
+#define KREDITS_DEFAULT_LOG_CATEGORY "net.http"
 
 extern epee::critical_section gregexp_lock;
 

@@ -79,8 +79,8 @@
 // TODO:
 #include "net/network_throttle-detail.hpp"
 
-#undef LOKI_DEFAULT_LOG_CATEGORY
-#define LOKI_DEFAULT_LOG_CATEGORY "net.p2p"
+#undef KREDITS_DEFAULT_LOG_CATEGORY
+#define KREDITS_DEFAULT_LOG_CATEGORY "net.p2p"
 
 // ################################################################################################
 // local (TU local) headers

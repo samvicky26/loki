@@ -1,5 +1,6 @@
 // Copyright (c) 2014-2018, The Monero Project
 // Copyright (c)      2018, The Loki Project
+// Copyright (c)      2018, Kredits Project
 // 
 // All rights reserved.
 // 
@@ -101,7 +102,7 @@ namespace daemonizer
     }
     else
     {
-      //LOG_PRINT_L0("Loki '" << LOKI_RELEASE_NAME << "' (v" << LOKI_VERSION_FULL);
+      //LOG_PRINT_L0("Kredits '" << KREDITS_RELEASE_NAME << "' (v" << KREDITS_VERSION_FULL);
       return executor.run_interactive(vm);
     }
   }

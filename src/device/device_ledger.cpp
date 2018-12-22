@@ -1,5 +1,6 @@
-// Copyright (c) 2017-2018, The Monero Project
+// Copyright (c) 2014-2018, The Monero Project
 // Copyright (c)      2018, The Loki Project
+// Copyright (c)      2018, The Kredits Project
 // 
 // All rights reserved.
 // 
@@ -43,8 +44,8 @@ namespace hw {
 
   #ifdef WITH_DEVICE_LEDGER
 
-    #undef LOKI_DEFAULT_LOG_CATEGORY
-    #define LOKI_DEFAULT_LOG_CATEGORY "device.ledger"
+    #undef KREDITS_DEFAULT_LOG_CATEGORY
+    #define KREDITS_DEFAULT_LOG_CATEGORY "device.ledger"
 
     /* ===================================================================== */
     /* ===                           Debug                              ==== */

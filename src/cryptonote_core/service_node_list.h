@@ -1,3 +1,4 @@
+// Copyright (c)      2018, The Kredits Project
 // Copyright (c)      2018, The Loki Project
 //
 // All rights reserved.
@@ -132,7 +133,7 @@ namespace service_nodes
   };
 
   template<typename T>
-  void loki_shuffle(std::vector<T>& a, uint64_t seed);
+  void kredits_shuffle(std::vector<T>& a, uint64_t seed);
 
   static constexpr uint64_t QUEUE_SWARM_ID = 0;
 

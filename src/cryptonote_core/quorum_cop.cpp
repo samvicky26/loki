@@ -1,3 +1,4 @@
+// Copyright (c)      2018, The Kredits Project
 // Copyright (c)      2018, The Loki Project
 //
 // All rights reserved.
@@ -33,8 +34,8 @@
 #include "version.h"
 #include "quorum_cop.h"
 
-#undef LOKI_DEFAULT_LOG_CATEGORY
-#define LOKI_DEFAULT_LOG_CATEGORY "quorum_cop"
+#undef KREDITS_DEFAULT_LOG_CATEGORY
+#define KREDITS_DEFAULT_LOG_CATEGORY "quorum_cop"
 
 namespace service_nodes
 {
@@ -82,10 +83,10 @@ namespace service_nodes
 
     uint64_t const latest_height = std::max(m_core.get_current_blockchain_height(), m_core.get_target_blockchain_height());
 
-    if (latest_height < loki::service_node_deregister::VOTE_LIFETIME_BY_HEIGHT)
+    if (latest_height < kredits::service_node_deregister::VOTE_LIFETIME_BY_HEIGHT)
       return;
 
-    uint64_t const execute_justice_from_height = latest_height - loki::service_node_deregister::VOTE_LIFETIME_BY_HEIGHT;
+    uint64_t const execute_justice_from_height = latest_height - kredits::service_node_deregister::VOTE_LIFETIME_BY_HEIGHT;
     if (height < execute_justice_from_height)
       return;
 
@@ -101,7 +102,7 @@ namespace service_nodes
       const std::shared_ptr<const quorum_state> state = m_core.get_quorum_state(m_last_height);
       if (!state)
       {
-        // TODO(loki): Fatal error
+        // TODO(kredits): Fatal error
         LOG_ERROR("Quorum state for height: " << m_last_height << "was not cached in daemon!");
         continue;
       }
@@ -121,11 +122,11 @@ namespace service_nodes
         if (!vote_off_node)
           continue;
 
-        loki::service_node_deregister::vote vote = {};
+        kredits::service_node_deregister::vote vote = {};
         vote.block_height        = m_last_height;
         vote.service_node_index  = node_index;
         vote.voters_quorum_index = my_index_in_quorum;
-        vote.signature           = loki::service_node_deregister::sign_vote(vote.block_height, vote.service_node_index, my_pubkey, my_seckey);
+        vote.signature           = kredits::service_node_deregister::sign_vote(vote.block_height, vote.service_node_index, my_pubkey, my_seckey);
 
         cryptonote::vote_verification_context vvc = {};
         if (!m_core.add_deregister_vote(vote, vvc))
@@ -180,9 +181,9 @@ namespace service_nodes
 
   void generate_uptime_proof_request(const crypto::public_key& pubkey, const crypto::secret_key& seckey, cryptonote::NOTIFY_UPTIME_PROOF::request& req)
   {
-    req.snode_version_major = static_cast<uint16_t>(LOKI_VERSION_MAJOR);
-    req.snode_version_minor = static_cast<uint16_t>(LOKI_VERSION_MINOR);
-    req.snode_version_patch = static_cast<uint16_t>(LOKI_VERSION_PATCH);
+    req.snode_version_major = static_cast<uint16_t>(KREDITS_VERSION_MAJOR);
+    req.snode_version_minor = static_cast<uint16_t>(KREDITS_VERSION_MINOR);
+    req.snode_version_patch = static_cast<uint16_t>(KREDITS_VERSION_PATCH);
     req.timestamp           = time(nullptr);
     req.pubkey              = pubkey;
 

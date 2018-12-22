@@ -1,5 +1,6 @@
 // Copyright (c) 2014-2018, The Monero Project
 // Copyright (c)      2018, The Loki Project
+// Copyright (c)      2018, Kredits Project
 //
 // All rights reserved.
 //
@@ -38,8 +39,8 @@
 #include "blockchain_db/db_types.h"
 #include "version.h"
 
-#undef LOKI_DEFAULT_LOG_CATEGORY
-#define LOKI_DEFAULT_LOG_CATEGORY "bcutil"
+#undef KREDITS_DEFAULT_LOG_CATEGORY
+#define KREDITS_DEFAULT_LOG_CATEGORY "bcutil"
 
 namespace po = boost::program_options;
 using namespace epee;
@@ -130,12 +131,12 @@ int main(int argc, char* argv[])
 
   if (command_line::get_arg(vm, command_line::arg_help))
   {
-    std::cout << "Loki '" << LOKI_RELEASE_NAME << "' (v" << LOKI_VERSION_FULL << ")" << ENDL << ENDL;
+    std::cout << "Kredits '" << KREDITS_RELEASE_NAME << "' (v" << KREDITS_VERSION_FULL << ")" << ENDL << ENDL;
     std::cout << desc_options << std::endl;
     return 1;
   }
 
-  mlog_configure(mlog_get_default_log_path("loki-blockchain-usage.log"), true);
+  mlog_configure(mlog_get_default_log_path("kredits-blockchain-usage.log"), true);
   if (!command_line::is_arg_defaulted(vm, arg_log_level))
     mlog_set_log(command_line::get_arg(vm, arg_log_level).c_str());
   else
@@ -175,7 +176,7 @@ int main(int argc, char* argv[])
     Blockchain m_blockchain;
     tx_memory_pool m_mempool;
     service_nodes::service_node_list m_service_node_list;
-    loki::deregister_vote_pool m_deregister_vote_pool;
+    kredits::deregister_vote_pool m_deregister_vote_pool;
     BlockchainObjects() :
       m_blockchain(m_mempool, m_service_node_list, m_deregister_vote_pool),
       m_service_node_list(m_blockchain),

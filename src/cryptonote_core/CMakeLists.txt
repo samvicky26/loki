@@ -1,3 +1,4 @@
+# Copyright (c) 2018, The Kredits Project
 # Copyright (c) 2018, The Loki Project
 # Copyright (c) 2014-2018, The Monero Project
 #
@@ -50,9 +51,9 @@ set(cryptonote_core_private_headers
   tx_pool.h
   cryptonote_tx_utils.h)
 
-loki_private_headers(cryptonote_core
+kredits_private_headers(cryptonote_core
   ${cryptonote_core_private_headers})
-loki_add_library(cryptonote_core
+kredits_add_library(cryptonote_core
   ${cryptonote_core_sources}
   ${cryptonote_core_headers}
   ${cryptonote_core_private_headers})

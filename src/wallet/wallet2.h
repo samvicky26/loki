@@ -1,5 +1,6 @@
 // Copyright (c) 2014-2018, The Monero Project
 // Copyright (c)      2018, The Loki Project
+// Copyright (c)      2018, Kredits Project
 // 
 // All rights reserved.
 // 
@@ -61,8 +62,8 @@
 #include "common/password.h"
 #include "node_rpc_proxy.h"
 
-#undef LOKI_DEFAULT_LOG_CATEGORY
-#define LOKI_DEFAULT_LOG_CATEGORY "wallet.wallet2"
+#undef KREDITS_DEFAULT_LOG_CATEGORY
+#define KREDITS_DEFAULT_LOG_CATEGORY "wallet.wallet2"
 
 #define SUBADDRESS_LOOKAHEAD_MAJOR 50
 #define SUBADDRESS_LOOKAHEAD_MINOR 200
@@ -370,7 +371,7 @@ namespace tools
       std::vector<cryptonote::tx_destination_entry> m_dests;
       crypto::hash m_payment_id;
       uint64_t m_timestamp;
-      uint64_t m_unlock_time; // NOTE(loki): Not used after TX v2.
+      uint64_t m_unlock_time; // NOTE(kredits): Not used after TX v2.
       std::vector<uint64_t> m_unlock_times;
       uint32_t m_subaddr_account;   // subaddress account of your wallet to be used in this transfer
       std::set<uint32_t> m_subaddr_indices;  // set of address indices used as inputs in this transfer

@@ -37,8 +37,8 @@
 #include "http_auth.h"
 #include "http_base.h"
 
-#undef LOKI_DEFAULT_LOG_CATEGORY
-#define LOKI_DEFAULT_LOG_CATEGORY "net.http"
+#undef KREDITS_DEFAULT_LOG_CATEGORY
+#define KREDITS_DEFAULT_LOG_CATEGORY "net.http"
 
 namespace epee
 {

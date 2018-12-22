@@ -114,7 +114,7 @@ bool gen_bp_tx_validation_base::generate_with(std::vector<test_event_entry>& eve
     fill_tx_sources_and_multi_destinations(events, blk_last, from, to, amounts_paid, amounts_paid_len, TESTS_DEFAULT_FEE, CRYPTONOTE_TX_DEFAULT_MIX, sources, destinations, &change_amount);
     tx_destination_entry change_addr{change_amount, from.get_keys().m_account_address, false /* is subaddr */ };
 
-    // NOTE(loki): Monero tests presume the generated TX doesn't have change so remove it from our output.
+    // NOTE(kredits): Monero tests presume the generated TX doesn't have change so remove it from our output.
     for (auto it = destinations.begin(); it != destinations.end(); ++it)
     {
       if (it->amount != change_amount) continue;
@@ -236,12 +236,12 @@ bool gen_bp_tx_validation_base::check_bp(const cryptonote::transaction &tx, size
 // have 1 output. So my fix is to make it so we don't generate a tx that makes
 // too high of a fee from the change amount.
 
-// Further addendum. In Loki hardfork 10, we also introduce batching governance
+// Further addendum. In Kredits hardfork 10, we also introduce batching governance
 // payments- so most block heights will remove the governance output from the
-// reward. So if we send less than the governance amount (~6ish loki from the
+// reward. So if we send less than the governance amount (~6ish kredits from the
 // start of the chain), then we'll eclipse the reward again and overflow, so
 // most of these tests have again been modified to ensure that we use atleast
-// 6 loki from the block reward.
+// 6 kredits from the block reward.
 //  - 2018/10/29
 
 bool gen_bp_tx_valid_1::generate(std::vector<test_event_entry>& events) const

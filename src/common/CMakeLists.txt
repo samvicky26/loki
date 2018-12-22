@@ -1,3 +1,4 @@
+# Copyright (c) 2018, The Kredits Project
 # Copyright (c) 2018, The Loki Project
 # Copyright (c) 2014-2018, The Monero Project
 #
@@ -86,9 +87,9 @@ set(common_private_headers
   updates.h
   aligned.h)
 
-loki_private_headers(common
+kredits_private_headers(common
   ${common_private_headers})
-loki_add_library(common
+kredits_add_library(common
   ${common_sources}
   ${common_headers}
   ${common_private_headers}

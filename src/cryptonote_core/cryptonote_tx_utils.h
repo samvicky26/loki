@@ -49,11 +49,11 @@ namespace cryptonote
   uint64_t get_portion_of_reward                (uint64_t portions, uint64_t total_service_node_reward);
   uint64_t service_node_reward_formula          (uint64_t base_reward, int hard_fork_version);
 
-  struct loki_miner_tx_context // NOTE(loki): All the custom fields required by Loki to use construct_miner_tx
+  struct kredits_miner_tx_context // NOTE(kredits): All the custom fields required by Kredits to use construct_miner_tx
   {
     using stake_portions = uint64_t;
 
-    loki_miner_tx_context(network_type type         = MAINNET,
+    kredits_miner_tx_context(network_type type         = MAINNET,
                           crypto::public_key winner = crypto::null_pkey,
                           std::vector<std::pair<account_public_address, stake_portions>> winner_info = {});
 
@@ -73,7 +73,7 @@ namespace cryptonote
       transaction& tx,
       const blobdata& extra_nonce = blobdata(),
       uint8_t hard_fork_version = 1,
-      const loki_miner_tx_context &miner_context = {});
+      const kredits_miner_tx_context &miner_context = {});
 
   struct block_reward_parts
   {
@@ -99,7 +99,7 @@ namespace cryptonote
     uint64_t miner_reward() { return base_miner + base_miner_fee; }
   };
 
-  struct loki_block_reward_context
+  struct kredits_block_reward_context
   {
     using portions = uint64_t;
     uint64_t                                                 height;
@@ -108,12 +108,12 @@ namespace cryptonote
     std::vector<std::pair<account_public_address, portions>> snode_winner_info;  // Optional: Check contributor portions add up, else set empty to use service_nodes::null_winner
   };
 
-  // NOTE(loki): I would combine this into get_base_block_reward, but
+  // NOTE(kredits): I would combine this into get_base_block_reward, but
   // cryptonote_basic as a library is to be able to trivially link with
   // cryptonote_core since it would have a circular dependency on Blockchain
 
   // NOTE: Block reward function that should be called after hard fork v10
-  bool get_loki_block_reward(size_t median_weight, size_t current_block_weight, uint64_t already_generated_coins, int hard_fork_version, block_reward_parts &result, const loki_block_reward_context &loki_context);
+  bool get_kredits_block_reward(size_t median_weight, size_t current_block_weight, uint64_t already_generated_coins, int hard_fork_version, block_reward_parts &result, const kredits_block_reward_context &kredits_context);
 
   struct tx_source_entry
   {

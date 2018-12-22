@@ -4,6 +4,7 @@
 
 // Copyright (c) 2014-2018, The Monero Project
 // Copyright (c)      2018, The Loki Project
+// Copyright (c)      2018, Kredits Project
 // 
 // All rights reserved.
 // 
@@ -75,8 +76,8 @@
 
 #include "cryptonote_core/cryptonote_core.h" // e.g. for the send_stop_signal()
 
-#undef LOKI_DEFAULT_LOG_CATEGORY
-#define LOKI_DEFAULT_LOG_CATEGORY "net.cn"
+#undef KREDITS_DEFAULT_LOG_CATEGORY
+#define KREDITS_DEFAULT_LOG_CATEGORY "net.cn"
 
 // ################################################################################################
 // ################################################################################################

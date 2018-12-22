@@ -797,7 +797,7 @@ TEST(Serialization, portability_wallet)
   }
 }
 
-#define OUTPUT_EXPORT_FILE_MAGIC "Loki output export\003"
+#define OUTPUT_EXPORT_FILE_MAGIC "Kredits output export\003"
 TEST(Serialization, portability_outputs)
 {
   const bool restricted = false;
@@ -932,7 +932,7 @@ TEST(Serialization, portability_outputs)
   ASSERT_TRUE(td2.m_pk_index == 0);
 }
 
-#define UNSIGNED_TX_PREFIX "Loki unsigned tx set\004"
+#define UNSIGNED_TX_PREFIX "Kredits unsigned tx set\004"
 struct unsigned_tx_set
 {
   std::vector<tools::wallet2::tx_construction_data> txes;
@@ -949,7 +949,7 @@ TEST(Serialization, portability_unsigned_tx)
   const bool restricted = false;
   tools::wallet2 w(cryptonote::TESTNET, restricted);
 
-  const boost::filesystem::path filename    = unit_test::data_dir / "unsigned_loki_tx";
+  const boost::filesystem::path filename    = unit_test::data_dir / "unsigned_kredits_tx";
   const boost::filesystem::path wallet_file = unit_test::data_dir / "wallet_testnet";
   const string password = "test";
   w.load(wallet_file.string(), password);
@@ -1142,13 +1142,13 @@ TEST(Serialization, portability_unsigned_tx)
   ASSERT_TRUE(td2.m_pk_index == 0);
 }
 
-#define SIGNED_TX_PREFIX "Loki signed tx set\004"
+#define SIGNED_TX_PREFIX "Kredits signed tx set\004"
 TEST(Serialization, portability_signed_tx)
 {
   const bool restricted = false;
   tools::wallet2 w(cryptonote::TESTNET, restricted);
 
-  const boost::filesystem::path filename    = unit_test::data_dir / "signed_loki_tx";
+  const boost::filesystem::path filename    = unit_test::data_dir / "signed_kredits_tx";
   const boost::filesystem::path wallet_file = unit_test::data_dir / "wallet_testnet";
   const string password = "test";
   w.load(wallet_file.string(), password);

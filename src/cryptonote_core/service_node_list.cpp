@@ -1,3 +1,4 @@
+// Copyright (c)      2018, The Kredits Project
 // Copyright (c)      2018, The Loki Project
 //
 // All rights reserved.
@@ -43,8 +44,8 @@
 #include "service_node_list.h"
 #include "service_node_rules.h"
 
-#undef LOKI_DEFAULT_LOG_CATEGORY
-#define LOKI_DEFAULT_LOG_CATEGORY "service_nodes"
+#undef KREDITS_DEFAULT_LOG_CATEGORY
+#define KREDITS_DEFAULT_LOG_CATEGORY "service_nodes"
 
 namespace service_nodes
 {
@@ -155,7 +156,7 @@ namespace service_nodes
     const auto &it = m_quorum_states.find(height);
     if (it == m_quorum_states.end())
     {
-      // TODO(loki): Not being able to find the quorum is going to be a fatal error.
+      // TODO(kredits): Not being able to find the quorum is going to be a fatal error.
     }
     else
     {
@@ -304,7 +305,7 @@ namespace service_nodes
 
     if (!state)
     {
-      // TODO(loki): Not being able to find a quorum is fatal! We want better caching abilities.
+      // TODO(kredits): Not being able to find a quorum is fatal! We want better caching abilities.
       LOG_ERROR("Quorum state for height: " << deregister.block_height << ", was not stored by the daemon");
       return false;
     }
@@ -378,7 +379,7 @@ namespace service_nodes
     auto all_swarms = get_all_swarms(swarm_to_snodes);
     std::sort(all_swarms.begin(), all_swarms.end());
 
-    loki_shuffle(all_swarms, seed);
+    kredits_shuffle(all_swarms, seed);
 
     const auto cmp_swarm_sizes =
       [&swarm_to_snodes](swarm_id_t lhs, swarm_id_t rhs) {
@@ -455,7 +456,7 @@ namespace service_nodes
       /// shuffle the queue and select MAX_SWARM_SIZE last elements
       const auto new_swarm_id = get_new_swarm_id(mersenne_twister, all_swarms);
 
-      loki_shuffle(swarm_buffer, seed + new_swarm_id);
+      kredits_shuffle(swarm_buffer, seed + new_swarm_id);
 
       std::vector<crypto::public_key> selected_snodes;
 
@@ -853,7 +854,7 @@ namespace service_nodes
       update_swarms(block_height);
     }
 
-    const size_t QUORUM_LIFETIME         = (6 * loki::service_node_deregister::DEREGISTER_LIFETIME_BY_HEIGHT);
+    const size_t QUORUM_LIFETIME         = (6 * kredits::service_node_deregister::DEREGISTER_LIFETIME_BY_HEIGHT);
     // save six times the quorum lifetime, to be sure. also to help with debugging.
     const size_t cache_state_from_height = (block_height < QUORUM_LIFETIME) ? 0 : block_height - QUORUM_LIFETIME;
 
@@ -1003,7 +1004,7 @@ namespace service_nodes
     if (hard_fork_version < 9)
       return true;
 
-    // NOTE(loki): Service node reward distribution is calculated from the
+    // NOTE(kredits): Service node reward distribution is calculated from the
     // original amount, i.e. 50% of the original base reward goes to service
     // nodes not 50% of the reward after removing the governance component (the
     // adjusted base reward post hardfork 10).
@@ -1058,7 +1059,7 @@ namespace service_nodes
   }
 
   template<typename T>
-  void loki_shuffle(std::vector<T>& a, uint64_t seed)
+  void kredits_shuffle(std::vector<T>& a, uint64_t seed)
   {
     if (a.size() <= 1) return;
     std::mt19937_64 mersenne_twister(seed);
@@ -1089,7 +1090,7 @@ namespace service_nodes
       uint64_t seed = 0;
       std::memcpy(&seed, block_hash.data, std::min(sizeof(seed), sizeof(block_hash.data)));
 
-      loki_shuffle(pub_keys_indexes, seed);
+      kredits_shuffle(pub_keys_indexes, seed);
     }
 
     // Assign indexes from shuffled list into quorum and list of nodes to test

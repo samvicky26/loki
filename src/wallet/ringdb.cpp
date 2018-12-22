@@ -1,5 +1,6 @@
-// Copyright (c) 2018, The Monero Project
+// Copyright (c) 2014-2018, The Monero Project
 // Copyright (c)      2018, The Loki Project
+// Copyright (c)      2018, The Kredits Project
 // 
 // All rights reserved.
 // 
@@ -36,8 +37,8 @@
 #include "wallet_errors.h"
 #include "ringdb.h"
 
-#undef LOKI_DEFAULT_LOG_CATEGORY
-#define LOKI_DEFAULT_LOG_CATEGORY "wallet.ringdb"
+#undef KREDITS_DEFAULT_LOG_CATEGORY
+#define KREDITS_DEFAULT_LOG_CATEGORY "wallet.ringdb"
 
 static const char zerokey[8] = {0};
 static const MDB_val zerokeyval = { sizeof(zerokey), (void *)zerokey };

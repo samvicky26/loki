@@ -1,5 +1,6 @@
 // Copyright (c) 2014-2018, The Monero Project
 // Copyright (c)      2018, The Loki Project
+// Copyright (c)      2018, Kredits Project
 // 
 // All rights reserved.
 // 
@@ -40,8 +41,8 @@
 #include "wallet_rpc_server_commands_defs.h"
 #include "wallet2.h"
 
-#undef LOKI_DEFAULT_LOG_CATEGORY
-#define LOKI_DEFAULT_LOG_CATEGORY "wallet.rpc"
+#undef KREDITS_DEFAULT_LOG_CATEGORY
+#define KREDITS_DEFAULT_LOG_CATEGORY "wallet.rpc"
 
 namespace tools
 {

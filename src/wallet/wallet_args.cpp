@@ -1,5 +1,6 @@
 // Copyright (c) 2014-2018, The Monero Project
 // Copyright (c)      2018, The Loki Project
+// Copyright (c)      2018, Kredits Project
 //
 // All rights reserved.
 //
@@ -41,8 +42,8 @@
 #include <crtdbg.h>
 #endif
 
-#undef LOKI_DEFAULT_LOG_CATEGORY
-#define LOKI_DEFAULT_LOG_CATEGORY "wallet.wallet2"
+#undef KREDITS_DEFAULT_LOG_CATEGORY
+#define KREDITS_DEFAULT_LOG_CATEGORY "wallet.wallet2"
 
 // workaround for a suspected bug in pthread/kernel on MacOS X
 #ifdef __APPLE__
@@ -128,7 +129,7 @@ namespace wallet_args
     command_line::add_arg(desc_params, arg_max_concurrency);
     command_line::add_arg(desc_params, arg_config_file);
 
-    i18n_set_language("translations", "loki", lang);
+    i18n_set_language("translations", "kredits", lang);
 
     po::options_description desc_all;
     desc_all.add(desc_general).add(desc_params);
@@ -141,8 +142,8 @@ namespace wallet_args
 
       if (command_line::get_arg(vm, command_line::arg_help))
       {
-        Print(print) << "Loki '" << LOKI_RELEASE_NAME << "' (v" << LOKI_VERSION_FULL << ")" << ENDL;
-        Print(print) << wallet_args::tr("This is the command line loki wallet. It needs to connect to a loki\n"
+        Print(print) << "Kredits '" << KREDITS_RELEASE_NAME << "' (v" << KREDITS_VERSION_FULL << ")" << ENDL;
+        Print(print) << wallet_args::tr("This is the command line kredits wallet. It needs to connect to a kredits\n"
 												  "daemon to work correctly.") << ENDL;
         Print(print) << wallet_args::tr("Usage:") << ENDL << "  " << usage;
         Print(print) << desc_all;
@@ -151,7 +152,7 @@ namespace wallet_args
       }
       else if (command_line::get_arg(vm, command_line::arg_version))
       {
-        Print(print) << "Loki '" << LOKI_RELEASE_NAME << "' (v" << LOKI_VERSION_FULL << ")";
+        Print(print) << "Kredits '" << KREDITS_RELEASE_NAME << "' (v" << KREDITS_VERSION_FULL << ")";
         should_terminate = true;
         return true;
       }
@@ -202,12 +203,12 @@ namespace wallet_args
     if (!command_line::is_arg_defaulted(vm, arg_max_concurrency))
       tools::set_max_concurrency(command_line::get_arg(vm, arg_max_concurrency));
 
-    Print(print) << "Loki '" << LOKI_RELEASE_NAME << "' (v" << LOKI_VERSION_FULL << ")";
+    Print(print) << "Kredits '" << KREDITS_RELEASE_NAME << "' (v" << KREDITS_VERSION_FULL << ")";
 
     if (!command_line::is_arg_defaulted(vm, arg_log_level))
       MINFO("Setting log level = " << command_line::get_arg(vm, arg_log_level));
     else
-      MINFO("Setting log levels = " << getenv("LOKI_LOGS"));
+      MINFO("Setting log levels = " << getenv("KREDITS_LOGS"));
     MINFO(wallet_args::tr("Logging to: ") << log_path);
 
     Print(print) << boost::format(wallet_args::tr("Logging to %s")) % log_path;
